@@ -1,0 +1,627 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{amssymb}
+\newcommand{\mc}{\multicolumn{1}{c}}
+
+\renewcommand{\arraystretch}{1.5}
+\usepackage{nicematrix}
+\usepackage{amsthm}
+\usepackage{indentfirst}
+\usepackage{stmaryrd}
+
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\begin{document}
+\title{Colles du second semestre}
+\author{YLF}
+\date{2019}
+\maketitle
+
+\section{Semaine XVI : Polynomes}
+\subsection*{Enoncés}
+\subsubsection*{Exercice 1 (Pouchin).}
+On définit \begin{align*}
+\forall X\in\mathbb{C}, \begin{pmatrix}X\\p\end{pmatrix} = \frac{1}{p!}X(X-1)...(X-p+1).
+\end{align*}
+\begin{enumerate}
+\item Montrer que $\forall k \in \mathbb{Z}, \begin{pmatrix}k\\p \end{pmatrix}$ est un entier.
+On définit
+\begin{align*}
+  \Delta : \left\{
+     \begin{array}{@{}l@{\thinspace}l}
+      \mathbb{C}[X]&\to \mathbb{C}[X]\\
+      P &\mapsto P(X+1)-P(X)
+     \end{array}
+   \right.   
+\end{align*}.
+\item Calculer $\Delta\bigg(\begin{pmatrix}X\\p\end{pmatrix}\bigg)$.
+\item Quels sont les polynomes qui prennent que des valeurs entières sur les entiers ?
+\end{enumerate}
+\subsubsection*{Exercice 2 (Mégarbané).}
+Calculer \begin{align*}
+S = \sum_{k=0}^{4}{\cos^2{\frac{2k\pi}{9}}}
+\end{align*}
+\subsection*{Solutions} 
+\subsubsection*{Exercice 1.}
+\begin{enumerate}
+\item Soit $k\in\mathbb{Z}$, on remarque que $\begin{pmatrix}k\\p \end{pmatrix}$ est un coefficient binomial au signe prêt pour $k$ négatif. On justifie alors par récurrence que c'est effectivement un nombre entier par la formule de Pascal.
+\item On a 
+\begin{align*}
+\Delta\bigg(\begin{pmatrix}X\\p\end{pmatrix}\bigg) &= \frac{1}{p!}\bigg[(X+1)X(X-1)...(X-p+2)-X(X-1)...(X-p+1)\bigg]\\
+&= \frac{1}{p}\begin{pmatrix}X\\p-1\end{pmatrix}[(X+1)-(X-p+1)] = \begin{pmatrix}X\\p-1\end{pmatrix}.
+\end{align*}
+
+\item Soit $n\in\mathbb{N}$, posons $\mathbb{A}_n = \{P\in\mathbb{C}_n[X] : \forall k\in\mathbb{Z},P(k)\in\mathbb{Z}\}$. 
+
+Montrons par récurrence que 
+\begin{align*}
+\mathbb{A}_n =\bigg\{P = \sum_{p=0, a_p\in\mathbb{Z}}^{n}\begin{pmatrix}X\\p\end{pmatrix}a_p\bigg\} 
+\end{align*}
+
+Initialisation : pour $n=0$, on a bien $\mathbb{A}_0 = \{P = k\in\mathbb{Z}\} = \{a_0 \begin{pmatrix}X\\0\end{pmatrix} : a_0\in\mathbb{Z}\}$.
+
+Hérédité : supposons que $\mathcal{P}(n)$ est vraie, montrons alors que $\mathcal{P}(n+1)$ est vraie. 
+
+Soit $P\in\mathbb{A}_{n+1}$, alors $\Delta(P)\in\mathbb{A}_n$ et par hypothèse, on peut écrire
+\begin{align*}
+\Delta(P) = \sum_{p=0, a_p\in\mathbb{Z}}^{n}\begin{pmatrix}X\\p\end{pmatrix}a_p = \Delta\bigg(\sum_{p=0, a_p\in\mathbb{Z}}^{n}\begin{pmatrix}X\\p+1\end{pmatrix}a_p\bigg).
+\end{align*}
+
+Or $\Delta(P)=\Delta(Q)\Longleftrightarrow P = Q+\lambda$ où $\lambda\in\mathbb{C}$, ainsi on a 
+\begin{align*}
+P =\bigg( \sum_{p=0, a_p\in\mathbb{Z}}^{n}\begin{pmatrix}X\\p+1\end{pmatrix}a_p\bigg) + P(0).
+\end{align*}
+
+Cela permet de conclure que $\mathcal{P}(n+1)$ est vraie. 
+
+\end{enumerate}
+\subsubsection*{Exercice 2.}
+Introduisons l'équation 
+\begin{align*}
+\cos{5x}=\cos{4x} \Leftarrow x\in \{\frac{2k\pi}{9},k\in\{0,...,4\}\}.
+\end{align*}
+
+Antilinéarisons $\cos{5x}$ et $\cos{4x}$.
+\begin{align*}
+\cos{4x}=8 \cos^4{x} - 8 \cos^2{x} + 1\\
+\cos{5x}=16 \cos^5{x} - 20 \cos^3{x} + 5\cos{x}
+\end{align*}
+
+Posons $X =\cos{x}$, le polynome suivant permet de calculer la somme,
+\begin{align*}
+16X^5-8X^4-20X^3+8X^2+5X-1
+\end{align*}
+
+On a
+\begin{align*}
+S = \sigma_1^2-2\sigma_2 = \frac{8^2}{16^2}+\frac{40}{16}=2.75
+\end{align*}
+
+\section{Semaine XVII : Dérivations}
+\subsection*{Enoncés}
+\subsubsection*{Exercice 1 (Lemme de Sard) (Barboni).}
+On dit qu'une partie $A$ de $\mathbb{R}$ est négligeable si pour tout $\varepsilon>0$, il existe une famille d'intervalle $(I_n)_{n\in\mathbb{N}}$ tel que $A\subset \cup_{n\in\mathbb{N}}$ et $\sum_{n\in\mathbb{N}}{\mu(I_n)}\leq\varepsilon$.
+
+\begin{enumerate}
+\item Démontrer que toute union dénombrable de parties négligeables $\mathbb{R}$ est négligeable.
+\item Soit $f : \mathbb{R}\mapsto \mathbb{R}$ de classe $\mathcal{C}_1$. Montrer que $f(C)$, où $C = \{x\in\mathbb{R} : f'(x) = 0\}$ est négligeable.
+\end{enumerate}
+
+\subsubsection*{Exercice 2 (Mines-Ponts '71).}
+Soit $f$ une fonction de $\mathbb{R}$ dans $\mathbb{R}$ de classe $\mathcal{C}^2$. On suppose $f(x)\geq 0, f'(x)\geq 0, f''(x)\geq 0$ et $f$ non constante. Montrer que
+\begin{align*}
+\lim_{x\to-\infty}{f(x)}= l \,\, \lim_{x\to-\infty}{f'(x)}= 0\,\, \lim_{x\to+\infty}{f(x)}= \infty
+\end{align*}
+
+\subsubsection*{Exercice 3}
+Soit $f$ une fonction dérivable sur $[0,+\infty[$ telle que $f(0)=0$. 
+
+\begin{enumerate}
+\item Calculer 
+\begin{align*}
+\lim_{n\to +\infty}\sum_{p=1}^{n}f\bigg(\frac{p}{n^2}\bigg)
+\end{align*}
+\item Calculer
+\begin{align*}
+\lim_{n\to +\infty}\frac{1}{n^{2n}}\prod_{k=1}^{n}(n^2+k)
+\end{align*}
+\end{enumerate}
+\subsubsection*{Exercice 4}
+\begin{enumerate}
+\item Justifier l'existence de $\displaystyle l=\lim_{n\to+\infty} \sum_{k=1}^{n} \frac{1}{n+k}$.
+\item Soit $f : [0,+\infty[ \to \mathbb{R}$ dérivable telle que $f(0)=0$. Montrer que 
+\begin{align*}
+\sum_{k=1}^{n}{f\bigg(\frac{1}{n+k}\bigg)} \xrightarrow[n\mapsto+\infty]{} lf'(0).
+\end{align*}
+\item Déterminer $l$.
+\end{enumerate}
+\subsection*{Solutions} 
+\subsubsection*{Exercice 1.}
+\begin{enumerate}
+\item Soit $(A_j)_{j\in\mathbb{N}}$ une famille de parties négligeables. Pour tout $j\in\mathbb{N}$, posons $\varepsilon_j = \varepsilon_0/2^j$.
+
+Il existe donc une suite $((I_{n,j})_{n\in\mathbb{N}})_{j\in\mathbb{N}}$ telle que \begin{align*}
+\bigcup_{j\in\mathbb{N}}{A_j}\subset \bigcup_{j\in\mathbb{N}}\bigcup_{n\in\mathbb{N}}I_{n,j}
+\end{align*}
+et 
+\begin{align*}
+\sum_{j\in\mathbb{N}}{\sum_{n\in\mathbb{N}}}{\mu(I_{n,j})}\leq \varepsilon_0.
+\end{align*}
+\item Remarquons que $C$ est un fermé, en effet $\mathbb{R}\backslash C$ est un ouvert puisque $f'$ est continue (il existe un voisinage $W$ autour de tout point de $\mathbb{R}\backslash C$ tel que $\{0\}\notin f'(W)$).
+
+Or les ouverts de $\mathbb{R}$ sont des unions dénombrables d'ouverts disjoints. Ainsi $C$ est une union dénombrable de fermés disjoints, $(F_j)_{j\in\mathbb{N}}$, sur lesquels $f$ est constante, d'où $f(F_j)=\{y_j\}$.
+
+Ainsi 
+\begin{align*}
+f(C) = \bigcup_{j\in\mathbb{N}}{f(F_j)}=\bigcup_{j\in\mathbb{N}}\{y_j\}.
+\end{align*}
+
+Ce qui d'après la première question est négligeable.
+\end{enumerate}
+\newpage{}
+\subsubsection*{Exercice 2.}
+La première assertion est immédiate, $f$ est minorée par $0$ et de dérivée positive, ainsi par le théorème de la limite monotone ($f(-x)$ ayant une dérivée négative), $f$ admet une limite positive $l$ en $-\infty$.
+
+La seconde aussi, $f''$ étant positive et $f'$ minorée par $0$, on a de même par le théorème de la limite monotone, que $f'$ converge vers une limite finie $l'$ positive en $-\infty$. Supposons que $l'\neq 0$, alors $f$ ne tend pas vers une limite finie en $-\infty$. Absurde. 
+
+Supposons que $f$ soit bornée en $+\infty$, alors $f$ étant croissante, $f$ converge vers une limite finie. Or $f'$ est croissante, elle ne tend donc pas vers $0$ et $f$ ne converge donc pas. Absurde. 
+
+\subsubsection*{Exercice 3.}
+\begin{enumerate}
+\item On a $f(\frac{p}{n^2})=f'(0)\frac{p}{n^2}+o_{0}(\frac{p}{n^2})$. Ainsi,
+\begin{align*}
+\sum_{p=1}^{n}f\bigg(\frac{p}{n^2}\bigg)=f'(0)\frac{n(n+1)}{2n^2}+o_{0}(1)\xrightarrow[n\to\infty]{} f'(0)/2
+\end{align*}
+
+\item On passe par le logarithme en distribuant le facteur $1/n^{2n}$, et on applique le résultat de la question précédente pour $f(x) = \log{(1+x)}$, $f'(0)=1$.
+\begin{align*}
+\prod_{k=1}^{n}{\bigg( 1+\frac{k}{n^2}\bigg)}=\exp \bigg( \sum_{k=1}^n \log\bigg({1+\frac{k}{n^2}}\bigg) \bigg)\xrightarrow[n\to\infty]{}  \sqrt{e}
+\end{align*}
+\end{enumerate}
+\subsubsection*{Exercice 4.}
+\begin{enumerate}
+\item La somme est une somme de termes strictement positif et est majorée par $\frac{n}{1+n}$. Par le TLM, la série converge vers $l < 1$.
+\item Par un développement limité d'ordre 1, $f(\frac{1}{n+k})=\frac{1}{n+k}f'(0)$, en sommant et en passant à la limite, on a le résultat escompté.
+\item En prenant $f(x)=\log(1+x)$, on a
+\begin{align*}
+\sum_{k=1}^{n} \frac{1}{n+k} = \log \bigg(\prod_{k=1}^{n}{\frac{n+k+1}{n+k}}\bigg)=\log \frac{2n+1}{n+1}\xrightarrow[n\to\infty]{} \log 2
+\end{align*}
+\end{enumerate}
+
+\newpage
+
+\section{Semaine XVIII : Variables aléatoires}
+\subsection*{Enoncés}
+\subsubsection*{Exercice 1 (Jammes).}
+On tire avec remise dans une urne de $n$-boules numérotées de $1$ à $n$. On note $b_k$ le nombre de la boule tirée au $k$-ème tirage. Le tirage s'arrête lorsque $b_k\geq b_{k-1}$. On note $X_n$ la variable aléatoire correspondant au nombre de tirages.
+\begin{enumerate}
+\item Etablir la loi de $X_n$.
+\item Calculer $E(X_n)$ et sa limite.
+\end{enumerate}
+\subsection*{Solutions} 
+\subsubsection*{Exercice 1.}
+\begin{enumerate}
+\item L'univers est $\llbracket 2;n+1\rrbracket$. L'événement $(X>k)$ est équivalent à construire une application $b : \llbracket 1;k\rrbracket \mapsto\llbracket 1;n\rrbracket$ et qui est telle que $b_{k}<b_{k-1}<...<b_1$.
+Il existe $\begin{pmatrix}n\\k\end{pmatrix}$ de telles applications, on a donc 
+\begin{align*}
+P(X>k) = \frac{\begin{pmatrix}n\\k \end{pmatrix}}{n^k}.
+\end{align*}
+
+Ainsi 
+\begin{align*}
+P(X=k) = P(X>k-1)-P(X>k)= \frac{\begin{pmatrix}n \\k-1\end{pmatrix}}{n^{k-1}}-\frac{\begin{pmatrix}n\\k \end{pmatrix}}{n^k}
+\end{align*}
+\item Décalage d'indice (ou Binet), télescopage puis un binome de Newton, 
+\begin{align*}
+\sum_{k=2}^{n+1}{k\bigg( \frac{\begin{pmatrix}n \\k-1\end{pmatrix}}{n^{k-1}}-\frac{\begin{pmatrix}n\\k \end{pmatrix}}{n^k}\bigg)}=\bigg(1+\frac{1}{n}\bigg)^n\to e.
+\end{align*}
+\end{enumerate}
+\newpage{}
+\section{Semaine XX : Espaces vectoriels}
+\subsection*{Enoncés}
+\subsubsection*{Exercice 1 (Renaud).}
+Soit $E$ un $L$-ev et $(V_i)_{i\in\llbracket 1;n\rrbracket}$ une suite de sev de $E$ tels que
+\begin{align*}
+E = \bigcup_{i=1}^n V_i\,\,\,\, \forall j\in\llbracket 1;n\rrbracket, i\neq j, V_j\not\subset \bigcup_{i\neq j}  V_i.
+\end{align*}
+\begin{enumerate}
+\item Montrer que $\bigcup_{j=2}^{n} V_j \cap \overline{V_1}\neq \varnothing$. On note $y$ un élément de cet ensemble.
+\item Montrer qu'il existe $x\in V_1\cap \overline{\bigcup_{j=2}^n V_j}$ tel que 
+\begin{align*}
+\forall \lambda\in L, \exists i_\lambda\in \llbracket 2;n\rrbracket, x+\lambda y \in V_{i_\lambda}.
+\end{align*}
+\item Montrer que $|L|\leq n-1$.
+\end{enumerate}
+\subsection*{Solutions}
+\subsubsection*{Exercice 1.}
+\begin{enumerate}
+\item Supposons par l'absurde que $\bigcup_{j=2}^{n} V_j \subset V_1$. D'après l'hypothèse, on a 
+\begin{align*}
+\forall i\in\llbracket 2;n\rrbracket, V_i\not\subset \bigcup_{i\neq j}V_j=V_1
+\end{align*}
+
+Or $\bigcup_{j=2}^n V_j \subset V_1$, absurde. Ainsi il existe $y\in\bigcup_{j=2}^n V_j$ et $y\notin V_1$.
+
+\item Supposons par l'absurde que pour tout $x\in V_1 \cap \overline{\bigcup_{j=2}^n V_j}$, il existe $\lambda \in L$ tel que pour tout $i_{\lambda}\in \llbracket 2;n\rrbracket$, $x+\lambda y \notin V_{i_{\lambda}}$. Si l'on prend un tel $x$, alors $x+\lambda y \notin \bigcup_{j=2}^n V_j$, c'est-à-dire que $x+\lambda y \in V_1$. On a alors
+\begin{align*}
+(\underbrace{x}_{\in V_1}+\underbrace{\lambda y}_{\notin V_1})\in V_1
+\end{align*}
+
+Ce qui est absurde.
+
+\item Posons l'application
+\begin{align*}
+  \varphi : \left\{
+     \begin{array}{@{}l@{\thinspace}l}
+      L&\to \llbracket 2;n\rrbracket \\
+      \lambda &\mapsto i_{\lambda}
+     \end{array}
+   \right.   
+\end{align*}
+
+Montrons que $\varphi$ est injective. Soient $\mu, \lambda \in L$ tels que $i_{\lambda}=i_{\mu}$, i.e, $V_{i_{\lambda}}=V_{i_{\mu}}$. On a $\omega(\lambda) = x+\lambda y \in V_{i_\lambda}$, de même $\omega(\mu) = x+\mu y \in V_{i_{\lambda}}$. Alors $\mu\omega(\lambda)-\lambda\omega(\mu) = x(\mu-\lambda)\in V_{i_{\lambda}}$. Pour autant, on a $x\in V_1\cap \overline V_{i_{\lambda}}$. Si $\lambda \neq \mu$, alors $x = \underbrace{\frac{\mu\omega(\lambda)-\lambda\omega(\mu)}{\mu-\lambda}}_{\in V_{i_{\lambda}}}\in V_1\cap \overline{V_{i_{\lambda}}}$. Ainsi $\lambda = \mu$ et $\varphi$ est injective.
+
+Ainsi, on en déduit bien que $|L|\leq n-1$.
+\end{enumerate}
+\section{Semaine XXI : Equations différentielles}
+\subsection*{Enoncés}
+\subsubsection*{Exercice 1 (remplaçant de Narmanli, à Ulm)}
+Soit $f$ une fonction de $\mathbb{R}^+$ dans $\mathbb{R}$ dérivable, telle qu'il existe $M \in \mathbb{R}$ tel que
+\begin{align*}
+\forall x\in\mathbb{R}^+, f(x)-xf'(x) \leq M, \indent \lim_{x\to +\infty}f'(x) =  0.
+\end{align*} 
+
+Montrer que $f$ est majorée
+\subsection*{Solutions}
+\subsubsection*{Exercice 1}
+Posons $h$ une fonction telle que $f(x)-xf'(x)=h(x)$, i.e $\frac{-h(x)}{x}=f'(x)-\frac{f(x)}{x}$. Par la méthode de la variation de la constante, $f$ est de la forme
+\begin{align*}
+f(x)=\lambda x + x\int_{A}^{x}{\frac{-h\mathrm{d}u}{u^2}},\indent \lambda, A\in\mathbb{R}, \mathbb{R}^+.
+\end{align*}
+
+On en déduit que 
+\begin{align*}
+f'(x) = \lambda+\int_{A}^{x}{\frac{-h\mathrm{d}u}{u^2}}-\frac{h}{x}\leq \lambda+\int_{A}^{x}{\frac{-M\mathrm{d}u}{u^2}}-\frac{M}{x}=\lambda-\frac{M}{A}
+\end{align*} 
+
+En l'infini, on aura nécessairement $\lambda-\frac{M}{A}\geq |f'(x)|\geq 0$. On peut ainsi choisir $\lambda \geq \frac{M}{A}$.
+
+Alors 
+\begin{align*}
+f(x)\leq \frac{M}{A}x+x\int_{A}^{x}{\frac{-M\mathrm{d}u}{u^2}}\leq \frac{M}{A}x+M-\frac{M}{A}x=M
+\end{align*}
+
+\section{Semaine XXVI : Dimension finie (i) et convexité}
+\subsection*{Enoncés}
+\subsubsection*{Exercice 1 (Jammes)}
+Soit $E$ un espace vectoriel de dimension $n$, $F_1,...,F_k$, $k$ sev de $E$. 
+Montrer que 
+\begin{align*}
+\sum_{i=1}^{k}{\dim{F_i}}>n(k-1)\Rightarrow \bigcap_{i=1}^{k}{F_i}\neq \varnothing
+\end{align*}
+\subsubsection*{Exercice 2 (Jammes)}
+Soit $a \in [0,1]$. Montrer que pour tous réels $x$ et $y$ positifs, on a 
+\begin{align*}
+1+x^ay^{1-a}\leq (1+x)^a (1+y)^{1-a}
+\end{align*}
+\subsubsection*{Exercice 3}
+On note $(E_{i,j})_{i,j\in\llbracket 1;n\rrbracket}$ la base canonique de $\mathcal{M}_n(K)$. En utilisant $F_{i,j}=E_{i,j}+I_n$, déterminer $\textup{Vect}(\mathcal{G}\mathcal{L}_n(K))$.
+\subsubsection*{Exercice 4}
+Soit $A \in \mathcal{M}_n(K)$ telle que $A^k = 0_n$, on pose $B = \sum_{i=0}^{k-1}{A^i}$. Soient $u$, $v$, les êndormophismes correspondant aux matrices dans la base canonique de $K^n$, $A$ et $B$.
+\begin{enumerate}
+\item Montrer que $\textup{Ker}(u-\textup{Id}) = \textup{Im} v$, $\textup{Im}(u-\textup{Id}) = \textup{Ker} v$, $\textup{Ker} v\oplus \textup{Im} v = K^n$.
+\item En déduire que $\textup{Tr} B = k \textup{rg} B$.
+\end{enumerate}
+
+\subsection*{Solutions}
+\subsubsection*{Exercice 1 (Algebre 1)}
+Posons 
+\begin{align*}
+  \varphi : \left\{
+     \begin{array}{@{}l@{\thinspace}l}
+      F_1\times F_2 \times \ldots \times F_k &\to E^{k-1}\\
+      (x_1,\ldots, x_k) &\mapsto (x_2-x_1,x_3-x_1,\ldots, x_k-x_1)
+     \end{array}
+   \right.   
+\end{align*}
+
+Remarquons que
+\begin{align*}
+\bigcap_{i=1}^k F_i = \ker \varphi
+\end{align*}
+
+Le théorème du rang et l'énoncé nous dit alors que 
+\begin{align*}
+\dim \bigcap_{i=1}^k F_i = \sum_{i=1}^k \dim F_i -\textup{rg} \varphi \geq \sum_{i=1}^k \dim F_i - n(k-1)>0
+\end{align*}
+
+
+\subsubsection*{Exercice 2}
+Torchons en posant $f(x) = \ln{1+e^x}$, on a $f''(x) = \frac{e^x}{(1+e^x)^2}>0$, donc $f$ est convexe. Puis,
+\begin{align*}
+f(a\ln x + (1-a)\ln y)\leq af(\ln{x})+(1-a)f(\ln y) = a\ln{(1+x)}+(1-a)\ln{(1+y)}
+\end{align*}
+
+D'où le résultat.
+\subsubsection*{Exercice 3}
+Remarquons que $\textup{rg } {F_{i,j}}=n$, dès lors les $(F_{i,j})$ sont inversibles. Montrons que $\textup{Vect}(\mathcal{G}\mathcal{L}_n(K))=\mathcal{M}_n(K)$. Soit $M=(a_{i,j})_{i,j\in\llbracket 1;n\rrbracket}\in\mathcal{M}_n(K)$, alors 
+\begin{align*}
+M = \textup{Diag}({a_{1,1},\ldots, a_{n,n}})+\sum_{1\leq i<j\leq n}{a_{i,j} F_{i,j}}-\sum_{1\leq i<j\leq n}{a_{i,j}}I_n
+\end{align*}
+Ainsi 
+$\mathcal{M}_n(K)\subset \textup{Vect}(\mathcal{G}\mathcal{L}_n(K))$ ce qui permet de conclure.
+On peut en fait montrer plus fort, en effet, toute endormophisme de $K^n$ est la somme de deux automorphismes. Soit $A\in\mathcal{M}_n(K)$ une application de rang $r$, alors on sait qu'il existe $P, Q\in\mathcal{G}\mathcal{L}_n(K)$ tel que 
+\begin{align*}
+A = P \begin{pmatrix}
+I_{r} & 0_{r, n-r}\\
+0_{n-r,r} & 0_{n-r,n-r}
+\end{pmatrix}
+Q^{-1}
+\end{align*}
+
+Ainsi, on a 
+\begin{align*}
+A = P (\textup{Diag}(\underbrace{2,\ldots,2}_{r \textup{ termes}},1,\ldots,1)-I_n)Q^{-1}
+\end{align*}
+
+Toutes les matrices qui interviennent sont clairement inversibles, ce qui permet de conclure.
+\subsubsection*{Exercice  4}
+\begin{enumerate}
+\item à rédiger
+\begin{enumerate}
+\item Par double inclusion, un antécédent de $X$ est $X/k$ 
+\item par le théorème du rang en utilisant l'inégalité d'avant 
+\item immédiat
+\end{enumerate}
+\item chaque terme de la somme pour $B$ contribue de $\textup{rg} B$
+\end{enumerate}
+\section{Semaine XXVII : Dimension finie (ii) et suite de fonctions}
+\subsection*{Enoncés}
+\subsubsection*{Exercice 1 (London, matrices d'Hadamard)}
+Soit $A\in \mathcal{M}_n(\mathbb{C})$ telle que 
+\begin{align*}
+\forall i\in [1;n], |a_{i,i}|>\sum_{j=1,j\neq i}^{n}|a_{j,j}|
+\end{align*}
+
+Montrer que $A$ est inversible.
+\subsubsection*{Exercice 2}
+On pose pour tout $n\in\mathbb{N}^*$, \begin{align*}
+f_n(x) =  \left\{
+     \begin{array}{@{}l@{\thinspace}l}
+  n^3x \textup{ si } |x|\leq \frac{1}{n}\\
+  1/x \textup{ sinon}
+     \end{array}
+   \right.   
+\end{align*}
+\subsection*{Solutions}
+\subsubsection*{Exercice 1}
+Supposons par l'absurde qu'il existe une telle matrice  $A$ composée de lignes $L_j$, qui ne soit pas inversible, il existe alors $(\lambda_1,\ldots, \lambda_n)$ tels que 
+\begin{align*}
+0 = \sum_{j=1}^n \lambda_j L_j
+\end{align*}
+
+Considérons $i_0$ l'indice réalisant $\max_{i\in\llbracket 1;n\rrbracket} |\lambda_i|$. Ainsi
+\begin{align*}
+a_{i_0,i_0}= \sum_{j=1,j\neq i_0}^n \frac{\lambda_j}{\lambda_{i_0}}a_{j,j}
+\end{align*}
+
+On a alors
+\begin{align*}
+|a_{i_0,i_0}| \geq \sum_{j=1,j\neq i_0}^n \bigg|\frac{\lambda_j}{\lambda_{i_0}} a_{j,j}\bigg|\geq \sum_{j=1,j\neq i_0}^n |a_{j,j}|
+\end{align*}
+
+Absurde, ainsi $A$ est inversible.
+\subsubsection*{Exercice 2}
+La suite converge simplement vers $x \mapsto 1/x$ mais pas uniformément. En effet, on peut vérifier facilement que $f_n$ est bornée mais sa limite ne l'est clairement. 
+\section{Semaine XXVIII : Intégration et groupe symétrique}
+\subsection*{Enoncés}
+\subsubsection*{Exercice 1 (Jammes)}
+Soit $n\geq 2$,
+\begin{enumerate}
+\item Déterminer tous les morphismes $\varphi : \frak{S}_n \mapsto \mathbb{Z}$
+\item Montrer que toute transposition est de la forme $\sigma \circ (1, 2) \circ \sigma^{-1}$, où $\sigma\in\frak{S}_n$.
+\item Déterminer tous les morphismes $\varphi : \frak{S}_n \mapsto \mathbb{C}^*$.
+\end{enumerate}
+\subsubsection*{Exercice 2 (Jammes)}
+Calculer \begin{align*}
+I = \int_{0}^{\frac{\pi}{4}}\ln{(1+\tan{x})}\mathrm{d}x
+\end{align*}
+\subsection*{Solutions}
+\subsubsection*{Exercice 1}
+\begin{enumerate}
+\item $\varphi(\frak{S}_n)$ est un sous-groupe de $\mathbb{Z}$, autrement dit, $\varphi(\frak{S}_n) = n\mathbb{Z}$ où $n\in\mathbb{N}$. On en déduit facilement que $\varphi = 1$.
+\item On a clairement
+\begin{align*}
+(i,j) = \begin{pmatrix}1 & 2\\i & j\end{pmatrix}(1, 2) \begin{pmatrix}i& j\\1 & 2\end{pmatrix}
+\end{align*}
+
+\item On sait que $\frak{S}_n$ est engendré par les transpositions, ainsi pour $\sigma = \tau_1\ldots \tau_k$, on a $\varphi(\sigma)=\varphi(1,2)^k$. Or, le nombre de transpositions utilisées dans la décomposition n'est pas forcément unique, par contre, sur deux décompositions, ce nombre ne peut différer que d'un multiple de deux. Ainsi $\varphi(1,2)^2=1$ et $\varphi = 1$ ou $\varphi = (-1)^{\varepsilon({\sigma})}$.
+\end{enumerate}
+\subsubsection*{Exercice 2}
+On a directement
+\begin{align*}
+I &= \int_{0}^{\frac{\pi}{4}}\ln{\bigg(1+\tan{\bigg(\frac{\pi}{4}-x\bigg)}\bigg)}\mathrm{d}x\\
+&=\int_{0}^{\frac{\pi}{4}}\ln{\bigg(1+\frac{1-\tan{x}}{1+\tan{x}}\bigg)}\mathrm{d}x\\
+&=\int_{0}^{\frac{\pi}{4}}(\ln{2}-\ln{(1+\tan{x})})\mathrm{d}x = \frac{\pi}{4}\ln{2}-I\\
+\end{align*}
+
+D'où $I = \frac{\pi}{8}\ln{2}$.
+\section{Semaine XXIX : Déterminants}
+\subsection*{Enoncés}
+\subsubsection*{Exercice 1 (Hugo Manet, remplaçant de Narmanli)}
+Soit $f : \mathcal{M}_n(K) \mapsto K$ telle que $f(MN)=f(M)f(N)$ et $f$ non constante. Montrer qu'ilexiste $g$ une fonction telle que $f = g\circ \det$.
+\subsubsection*{Exercice 2 (*Sage)}
+Soit $n\geq 2$, trouver toutes les matrices $A$ de $\mathcal{M}_n(K)$ telle que pour tout $M\in\mathcal{M}_n(K)$, $\det{(A+M)}=\det A + \det M$.
+\subsubsection*{Exercice 3 (*Yvann)}
+Notons $\frak{D}_n$, l'ensemble des dérangements de $\llbracket 1;n\rrbracket$, i.e, 
+\begin{align*}
+\frak{D}_n =\{\sigma\in\frak{S}_n : \forall i\in\llbracket 1;n\rrbracket, \sigma(i)\neq i\}
+\end{align*}
+
+Calculer 
+\begin{align*}
+|\frak{D}_n\cap \frak{A}_n|-|\frak{D}_n\cap \frak{S}_n\backslash\frak{A}_n|
+\end{align*}
+
+
+\subsection*{Solutions}
+\subsubsection*{Exercice 1 (solution de Yacine et Yvann)}
+
+Il est utile d'avoir un petit chemin de route pour ce problème difficile. Notre but est de montrer que deux matrices de même déterminant, ont une même image par $f$. Premièrement, on calcule deux valeurs particulières de $f$. On démontre que $\ker f = \mathcal{M}_n(K)\backslash \mathcal{G}\mathcal{L}_n(K)$. On aura alors calculé $f$ sur les matrices non inversibles. On montre alors que sur $\mathcal{S}\mathcal{L}_n(K)$, $f$ vaut $1$, en utilisant le Pivot de Gauss et les matrices de transvections. Enfin, on pourra calculer $f$ sur $\mathcal{G}\mathcal{L}_n(K)$.
+\newline
+
+Premièrement, $f(0_n)=f(0_n^2)=f(0_n)^2$, d'où $f(0_n) \in \{0,1\}$, si $f(0)=1$ alors $f = 1$, or $f$ n'est pas constante, donc $f(0) = 0$. De même, $f(I_n) = f(I_n)^2$, ainsi $f(I_n) = 1$. Aussi, $f(M^{-1}) = f(M)^{-1}$.
+
+Supposons que $M\in\mathcal{G}\mathcal{L}_n(K)$, alors $f(I_n) = 1 = f(M)f(M)^{-1}$, d'où $f(M)\neq 0$, par contraposée, $\ker f\subset \mathcal{M}_n(K)\backslash\mathcal{G}\mathcal{L}_n(K)$.
+
+Soit $M\in\mathcal{M}_n(K)\backslash\mathcal{G}\mathcal{L}_n(K)$, alors $M$ est d'un rang $r<n$ et est donc équivalente à 
+\begin{align*}
+J_r^* = \begin{pmatrix}0_{r,n-r}&I_{r,r}\\
+0_{n-r,n-r}&0_{n-r,r}\end{pmatrix}
+\end{align*}
+
+Or $J_r^*$ est $r$-nilpotente, d'où $f(J_r^{*r})=f(J_r^*)^r=0$, puis $f(M) = 0$. On en déduit que $\ker f = \mathcal{M}_n(K)\backslash\mathcal{G}\mathcal{L}_n(K)$.
+\newline
+
+Introduisons la matrice de transvection, $i,j\in\llbracket 1;n\rrbracket : i\neq j$, $\lambda\in K$, $T_{i,j}(\lambda) = I_n+\lambda E_{i,j}$. Pour une matrice $A\in\mathcal{M}_n(K)$ de colonnes $C_1,\ldots, C_n$ et de lignes $L_1,\ldots, L_n$, on a
+\begin{align*}
+T_{i,j}(\lambda) A &\equiv L_i \leftarrow L_i + \lambda L_j\\
+A T_{i,j}(\lambda) &\equiv C_j \leftarrow C_j + \lambda C_i
+\end{align*}
+
+On remarque alors que
+
+\begin{align*}
+T_{i,j}(2\lambda) = \textup{Diag}(\underbrace{1,\ldots,2}_{i},1,\ldots 1) T_{i,j}(\lambda)  \textup{Diag}(\underbrace{1,\ldots,1/2}_{i},1,\ldots 1)
+\end{align*}
+
+Ainsi, $T_{i,j}(\lambda)^2 = T_{i,j}(2\lambda) \sim T_{i,j}(\lambda)$ pour la relation de similitude. On en déduit que $f(T_{i,j}(\lambda))^2 = f(T_{i,j}(\lambda))$, d'où $f(T_{i,j}(\lambda)) = 1$.
+
+ 
+L'idée principale est de montrer que $\mathcal{S}\mathcal{L}_n(K)$ est engendré par ces matrices de transvections, ce qui est intéressant puisque les opérations élémentaires qu'elles nous accordent ne nous coûtent rien. Pour cela, raisonnons par récurrence sur la dimension de nos matrices.
+
+Pour $n = 1$, c'est évidemment vrai puisque la seule matrice dans $\mathcal{S}\mathcal{L}_n(K)$ est $[1]$.
+
+Supposons la propriété vraie au rang $n-1$. 
+
+Soit $A=(a_{i,j})_{i,j\in\llbracket 1;n\rrbracket} \in\mathcal{S}\mathcal{L}_n(K)$. On note par $\rightarrow$ les étapes licites par des transvections qui nous permettent de passer d'une matrice à l'autre. Si les opérations ne sont pas indiquées, c'est qu'elles sont triviales. 
+
+\begin{align*}
+A = \begin{pmatrix}a_{1,1}&\ldots&a_{1,n}\\
+\vdots & & \vdots\\
+\vdots & & \vdots\\
+a_{n,1}& \ldots & a_{n,n}\end{pmatrix} \rightarrow
+\begin{pmatrix}
+b_{1,1} & \cdots & \cdots & b_{1,n} \\
+0 & \ddots & & \vdots \\
+\vdots & \ddots & \ddots & \vdots \\
+0 & \cdots & 0 & b_{n,n}
+\end{pmatrix}\rightarrow
+\begin{pmatrix}
+b_{1,1} & 0 & \cdots & 0 \\
+0 & \ddots & & \vdots \\
+\vdots & \ddots & \ddots & \vdots \\
+0 & \cdots & 0 & b_{n,n}
+\end{pmatrix}
+\end{align*} 
+
+Aucun des coefficients de la diagonale de la seconde matrice est nul sinon elle ne serait pas inversible Remarquez que la dernière écriture est ambigüe, on a éliminé les coefficients $(b_{1,2},\ldots, b_{1,n},b_{2,3},\ldots, b_{2,n})$ seulement. Extrayons de cette dernière matrice, les matrices
+\begin{align*}
+S = \begin{pmatrix}
+b_{1,1}&0\\
+0&b_{2,2}
+\end{pmatrix}
+\qquad
+B = \begin{pmatrix}
+b_{2,2} & 0 &\cdots  & 0 \\
+0 & \ddots & & b_{3,n} \\
+\vdots & \ddots & \ddots & \vdots \\
+0 & \cdots & 0 & b_{n,n}
+\end{pmatrix}
+\end{align*}
+
+Il est possible de travailler seulement sur $S$ car sur les deux premières lignes, deux premières colonnes, les seuls coefficients non nuls sont ceux de $S$. Après avoir renommé $b_{1,1} = a$ et $b_{2,2} = b$, on a
+\begin{align*}
+S \xrightarrow[]{L_1\leftarrow L_1+L_2/b} \begin{pmatrix}a & 1 \\ 0 & b\end{pmatrix}\xrightarrow[]{C_1\leftarrow C_1-(a-1)C_2}\begin{pmatrix}1 & 1\\
+(1-a)b &b\end{pmatrix} &\xrightarrow[]{L_2\leftarrow L_2-b(1-a)L_1}\begin{pmatrix}1 & 1\\0&ab\end{pmatrix}\\
+& \xrightarrow[]{L_1\leftarrow L_1-\frac{1}{ab}L_2}\begin{pmatrix}1 & 0\\
+0 & ab\end{pmatrix}
+\end{align*}
+
+Ainsi, il existe une suite de transvections qui permettent 
+\begin{align*}
+S \rightarrow \begin{pmatrix} 1 & 0\\ 0 & ab \end{pmatrix}
+\quad
+B\rightarrow
+ \begin{pmatrix}
+ab & 0 &\cdots  & 0 \\
+0 & \ddots & & b_{3,n} \\
+\vdots & \ddots & \ddots & \vdots \\
+0 & \cdots & 0 & b_{n,n}
+\end{pmatrix}
+\end{align*}
+
+On a alors $\det A = \det B = 1$ par la formule de développement. On applique l'hypothèse de récurrence sur $B \in\mathcal{S}\mathcal{L}_{n-1}(K)$ puis on obtient 
+\begin{align*}
+A\rightarrow \begin{pmatrix}1&0&\ldots &0\\
+0& \ddots & & \vdots \\
+\vdots &\ddots &\ddots &\vdots\\
+0 & \ldots & 0&1\end{pmatrix} = I_n
+\end{align*}
+
+Puisque les transvections ne nous coûtent rien, $f(A) = f(I_n) = 1$.
+
+Soit $A\in\mathcal{G}\mathcal{L}_n(K)$, on a $A = (\det A)^{1/n}I_n \underbrace{(\det A)^{-1/n}A}_{\in\mathcal{S}\mathcal{L}_n(K) }$, d'où 
+\begin{align*}f(A) = f( (\det A)^{1/n}I_n)f((\det A)^{-1/n}A)= f( (\det A)^{1/n}I_n)
+\end{align*}
+
+Ce qui permet de conclure que $f$ ne dépend que de $\det$.
+\subsubsection*{Exercice 2}
+Soit $A$ une telle matrice, de rang $r$, alors on peut écrire $A = PJ_rQ$ où $P,Q$ sont inversibles, paramétrisons $\mathcal{M}_n(K)$ par $PNQ$. Alors,
+
+\begin{align*}
+\det {(P(J_r+N)Q)} = \det{PJ_rQ}+\det{PNQ}\Longleftrightarrow \det{J_r}+\det{N}
+\end{align*}
+
+Posons, $N = I_n-J_r$, alors pour $r\neq 0, r\neq n$, on aboutit à la contradiction, $1 = 0$. Aussi, on a 
+\begin{align*}
+\det{2A} = 2^n \det A = 2\det A
+\end{align*}
+
+Or $n\geq 2$, donc $\det A = 0$, ce qui implique $r=0$, d'où $A=0$.
+
+\subsubsection*{Exercice 3}
+On remarque que
+\begin{align*}
+|\frak{D}_n\cap\frak{A}_n|-|\frak{D}_n\cap \frak{S}_n\backslash\frak{A}_n| = \sum_{\sigma\in\frak{D}_n}\varepsilon(\sigma) &= \sum_{\sigma\in\frak{S}_n}{\varepsilon(\sigma)\prod_{k=1}^{n} \left\{
+     \begin{array}{@{}l@{\thinspace}l}
+  0 \textup{ si } \sigma(k)=k\\
+  1\textup{ sinon }
+     \end{array}
+   \right.   }\\
+   &=\det \begin{pmatrix}0 & 1 & \ldots & 1\\
+   1 & \ddots & \ddots  & \vdots \\
+	\vdots & \ddots & \ddots & 1 \\
+	1 & \ldots & 1 & 0    
+   \end{pmatrix}\\
+   &= (n-1)\det\begin{pmatrix} 1 & 1 & \ldots & 1\\
+   1 & 0 & \ddots  & \vdots \\
+	\vdots & \ddots & \ddots & 1 \\
+	1 & \ldots & 1 & 0   
+   \end{pmatrix}\\
+   &=(n-1)\det \begin{pmatrix}
+    1 & 1 & \ldots & \ldots & 1\\
+   0 & -1 & 0 &\ldots  & 0 \\
+	\vdots & \ddots & \ddots & \ddots &\vdots \\
+	\vdots & &\ddots &\ddots  & 0\\
+	0 & \ldots&\ldots & 0 & -1   
+   \end{pmatrix}\\
+   &=(n-1)(-1)^{n-1}
+\end{align*}
+
+Les opérations effectuées sont $L_1\leftarrow L_1+L_2+\ldots +L_n$ puis $L_i\leftarrow L_i-L_1$ pour $i\geq 2$.
+\end{document}
+

@@ -1,0 +1,298 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{indentfirst}
+\usepackage{stmaryrd}
+\usepackage{authblk}
+\usepackage{french}
+\usepackage{mathtools}
+
+\newtheorem{prop}{Proposition}
+\renewcommand*{\proofname}{Preuve}
+\newtheorem*{remark}{Remarque}
+\begin{document}
+\title{Sur les racines imbriquées}
+\date{Mai 2018, modifié en mars 2019}
+\author{Yvann Le Fay}
+\affil{Lycée Henri IV, 75005}
+
+\maketitle
+
+\section{Définitions}
+Soient $(u_n)\in [1,+\infty[^{\mathbb{N}}$, la suite d'exposants des radicaux, $C$ une constante positive et $(f_n)\in\mathbb{R}^{\mathbb{N}}$.
+On définit pour tout $n,m\in\mathbb{N}$, 
+\begin{align*}
+A(n_,m)=\left\{
+     \begin{array}{@{}l@{\thinspace}l}
+     f_n \sqrt[u_n]{C+A(n+1,m)}, \indent n\leq m\\
+     0 \indent \textup{sinon}
+     \end{array}
+   \right.   
+\end{align*}
+
+Aussi cette forme est équivalente à toutes les autres formes de radicaux imbriquées.
+\section{Inégalités, équivalents de $A(n,m)$}
+\begin{prop}
+Soient $n,m\in\mathbb{N}$ tels que $n\leq m$, alors
+\begin{align*}
+A(n,m)\leq \sum_{j=n}^{m}\bigg(\prod_{k=0}^{j-n}{u_{k+n}}\bigg)^{-1}(C+(u_j-1)f_{j}^{u_{j}/(u_j-1)})
+\end{align*}
+\begin{proof}
+Par récurrence, l'inégalité est vérifiée en $n=m$ par l'inégalité arithmético-géométrique, on a 
+\begin{align*}
+A(m,m)=f_m\sqrt[u_m]{C}\leq (C+(u_m-1)f^{u_m/(u_m-1)}_m)/u_m
+\end{align*}
+Supposons qu'elle soit vérifiée pour $n+1$, i.e
+\begin{align*}
+A(n+1,m)\leq \sum_{j=n+1}^{m}\bigg(\prod_{k=0}^{j-n-1}u_{k+n+1}\bigg)^{-1}(C+(u_j-1)f_{j}^{u_{j}/(u_j-1)})
+\end{align*}
+Alors
+\begin{align*}
+A(n,m) & = \sqrt[u_n]{f_{n}^{u_n}(C+A(n+1,m))}\\
+& \leq \frac{1}{u_n}((u_n-1)f_{n}^{u_n/(u_n-1)}+C+A(n+1,m))\\
+& \leq \frac{1}{u_n}\bigg((u_n-1)f_{n}^{u_n/(u_n-1)}+C+\sum_{j=n+1}^{m}\bigg(\prod_{k=0}^{j-n-1}u_{k+n+1}\bigg)^{-1}(C+(u_j-1)f_{j}^{u_{j}/(u_j-1)})\bigg)\\
+& =  \sum_{j=n}^{m}\bigg(\prod_{k=0}^{j-n}{u_{k+n}}\bigg)^{-1}(C+(u_j-1)f_{j}^{u_{j}/(u_j-1)})
+\end{align*}
+\end{proof}
+\begin{remark}
+En particulier pour $(u_n)$ de terme constant égal à $2$,
+$A(n,m)\leq \sum_{j=n}^{m}{2^{n-1-j}(C+f^2_j)}$
+\end{remark}
+\end{prop}
+\begin{prop}
+Soient $n\in\mathbb{N}$, si $(u_n)$ est de terme constant égal à $2$ et $f$ admet un prolongement dérivable et concave, alors
+\begin{align*}
+A(n,\infty)\leq C+A^2+2AB+3B^2
+\end{align*}
+où $A = f(n), \,B = f'(n)$.
+\end{prop}
+\begin{proof}
+D'après la proposition 1., on a pour $n\leq m$,
+\begin{align*}
+A(n,m)& \leq \sum_{j=1}^{m-n+1}r^{-j}(C+(r-1)f_{n+j-1}^{r/(r-1)})=\underbrace{ \frac{C}{R-1}(1-r^{n-m-1})}_{=V}+\sum_{j=1}^{m-n+1}{r^{-j}(r-1)f_{n+j-1}^{r/(r-1)}}
+\end{align*}
+Or $f$ est concave, ainsi $\forall j\in\mathbb{N}$, 
+\begin{align*}
+f(n+j-1)\leq A+B(j-1)
+\end{align*}
+Ainsi
+\begin{align*}
+A(n,m)&\leq V+\sum_{j=1}^{m-n+1}{r^{-j}(r-1)(A+B(j-1))^{r/(r-1)}}\\
+&= V+\frac{1}{2}\sum_{j=0}^{m-n} {\frac{1}{2^j}(A^2+2jAB+j^2B^2)}, \indent r = 2\\
+& = C+A^2+2AB+3B^2, \indent m \to +\infty
+\end{align*}
+Ou la dernière ligne se justifie plus en détail en utilisant la fonction transcendante de Lerch notée $\Phi$, en particulier on pourra calculer l'expression exacte pour $m$ fini grâce à
+\begin{align*}
+\sum_{j=0}^{m-n} \frac{j^s}{r^j}=\underbrace{\sum_{j=0}^{+\infty}\frac{j^s}{r^j}}_{=\Phi(r^{-1},-s,0)}-\underbrace{\sum_{j=m-n+1}^{+\infty}{\frac{j^s}{r^j}}}_{=r^{n-m-1}\Phi(r^{-1},-s,m-n+1)}
+\end{align*}
+\end{proof}
+\begin{remark}
+Il est facile de remarquer que pour $f$ affine, la majoration est très bonne.
+\end{remark}
+\begin{prop}
+Soient $n,m\in\mathbb{N}$ tels que $n<m$, si on dispose de deux suites $((\lambda_k)$, $(\mu_k))_{k\in\llbracket n+1;m\rrbracket}$ tels que $\lambda_kA(k,m)\leq C+A(k,m)\leq \mu_k A(k,m)$ alors on a 
+\begin{align*}
+f_n\prod_{j=1}^{m-n}{(f_{n+j}\lambda_{n+j})^{P_{j,n}}}  \leq A(n,m)\leq f_n\prod_{j=1}^{m-n}(f_{n+j}\mu_{n+j})^{P_{j,n}}
+\end{align*} 
+où 
+\begin{align*}
+P_{j,n} = \bigg(\prod_{i=0}^{j-1}{u_{i+n}}\bigg)^{-1}
+\end{align*}
+\end{prop}
+\begin{proof}
+On traite par récurrence l'inégalité de droite, \textit{mutatis mutandis} pour celle de gauche. 
+L'inégalité est vérifiée en $n=m-1$, on a 
+\begin{align*}
+A(m-1,m)=f_{m-1}\sqrt[u_{m-1}]{C+f_m\sqrt[u_m]{C}}\leq f_{m-1}\sqrt[u_{m-1}]{\mu_{m}f_m}
+\end{align*}
+Supposons qu'elle soit vérifiée pour $n+1$, i.e 
+\begin{align*}
+A(n+1,m)\leq f_{n+1}\prod_{j=1}^{m-n-1}{(f_{n+1+j}\mu_{n+1+j})^{P_{j,n+1}}}
+\end{align*}
+Alors
+\begin{align*}
+A(n,m) = f_n \sqrt[u_n]{C+A(n+1,m)}&\leq f_n \sqrt[u_n]{\mu_{n+1}A(n+1,m)}\\
+&\leq f_n\sqrt[u_n]{\mu_{n+1}f_{n+1}\prod_{j=2}^{m-n}{(f_{n+j}\mu_{n+j})^{P_{j-1,n+1}}}}\\
+&=f_n\prod_{j=1}^{m-n}{(f_{n+j}\mu_{n+j})^{P_{j,n}}}\indent \textup{car} \,
+u_n^{-1}P_{j-1,n+1}=P_{j,n}
+\end{align*}
+\begin{remark}
+On a égalité si et seulement si $\lambda_k = 1+\frac{C}{A(k,m)}$.
+\end{remark}
+\end{proof}
+%\begin{prop}
+%Soient $n,m\in\mathbb{N}$ tels que $n<m$, pour tout $k\in\llbracket n;m\rrbracket$, on définit
+%\begin{align*}
+%v_k = \left\{
+%     \begin{array}{@{}l@{\thinspace}l}
+%     1+\frac{C}{X_k},\indent k<m\\
+%     v_m : C+f_m\sqrt[u_m]{C}\leq v_m f_m\sqrt[u_m]{C}\\
+%    \end{array}
+%  \right.
+%\end{align*}
+%où $X_k = f_k \prod_{j=1}^{m-k}({f_{n+j}v_{n+j}})^{P_{j,k}}$ alors .
+%\end{prop}
+\begin{prop}
+Si $f$ est une fonction croissante et $(u_n)$ de terme constant égal à $u$, $\lambda$ tel que quelque soit $k\geq n$, $\lambda A(k,\infty)\leq C+A(k,\infty)$ alors
+\begin{align*}
+f_n (\lambda f_n)^{\frac{1}{u-1}}\leq A(n,\infty)
+\end{align*}
+
+Aussi, si $f$ est décroissante, $(u_n)$ de terme constant égal à $u$ et $\mu$ tel que quelque soit $k\geq n$, $\mu A(k,\infty)\geq C+A(k,\infty)$ alors
+\begin{align*}
+f_n (\lambda f_n)^{\frac{1}{u-1}}\geq A(n,\infty)
+\end{align*}
+\begin{proof}
+D'après la proposition 3, on  a pour la majoration (mutatis mutandis pour la minoration)
+\begin{align*}
+f_n (\lambda f_n)^{\frac{1}{u-1}}=f_n\prod_{j=1}^{\infty}{(\lambda f_n)^{u^{-j}}}\leq f_n\prod_{j=1}^{\infty}{(\lambda f(n+j))^{u^{-j}}}\leq A(n,\infty)
+\end{align*}
+\end{proof}
+\end{prop}
+\begin{prop}
+Si $u_n$ est de terme constant égal à $u$, $f_n\sim f_{n+j}$ et que $A(n,\infty)$ tend vers $+\infty$ alors
+\begin{align*}
+f_n^{\frac{u}{u-1}}\sim A(n,\infty)
+\end{align*}
+\begin{proof}
+Posons pour tout $k\geq n$ $\lambda_k = 1+\frac{C}{A(k,m)}$, soit $\varepsilon >0$, il existe $N\in\mathbb{N}$ tel que pour tout $n\geq N$, 
+\begin{align*}
+\bigg|\frac{C}{A(n,\infty)}\bigg|< \varepsilon \textup{ et } \bigg|\frac{f_n}{f_N}-1\bigg|< \varepsilon
+\end{align*}
+
+Aussi d'après la proposition 3,
+\begin{align*}
+f_n\prod_{j=1}^{m-n}{\bigg( f_{n+j}(1+\frac{C}{A(n+j,m)})\bigg)^{u^{-j}}}=A(n,m)
+\end{align*}
+
+Ainsi pour $n\geq N$, $j\geq 1$, on a $f_N(1-\varepsilon)<f_{n+j} <f_N(1+\varepsilon)$
+\begin{align*}
+f_n\prod_{j=1}^{m-n}\bigg(f_N(1-\varepsilon)^2\bigg)^{u^{-j}}< A(n,m) < f_n\prod_{j=1}^{m-n}\bigg(f_N(1+\varepsilon)^2)\bigg)^{u^{-j}}
+\end{align*}
+
+Puis pour $m\to +\infty$,
+\begin{align*}
+f_n(f_N(1-\varepsilon)^2)^{1/(u-1)}\leq  A(n,\infty) \leq f_n(f_N (1+\varepsilon)^2)^{1/(u-1)} 
+\end{align*} 
+
+Or $N\to n$ convient, ce qui implique $\varepsilon\to 0$, d'où le résultat.
+\end{proof}
+\begin{remark}
+Il peut être utile de suivre le même raisonnement avec $(u_n)$ non constante.
+\end{remark}
+\end{prop}
+
+\begin{prop}
+Si $u_n$ est de terme constant égal à $u$ et $f_{n+j}\sim f_n K^j$ avec $K>1$, alors 
+\begin{align*}
+f_n^{\frac{u}{1-u}} K^{\frac{u}{(1-u)^2}}\sim A(n,\infty)
+\end{align*}
+\begin{proof}
+Adaptons la preuve de la proposition précédente, nécessairement $A(n,\infty)$ tend vers $+\infty$, soit $\varepsilon>0$, il existe $N\in\mathbb{N}$ tel que pour tout $n\geq N$,
+
+\begin{align*}
+\bigg|\frac{C}{A(n,\infty)}\bigg|<\varepsilon \textup{ et } \bigg|\frac{f_{n+j}}{K^j f_n}-1\bigg|<\varepsilon
+\end{align*}
+
+On a pour $n\geq N$, $j\geq 1$, $f_n(1-\varepsilon)K^j<f_{n+j}<f_n(1+\varepsilon)K^j$ puis d'après la proposition 3,
+\begin{align*}
+f_n \prod_{j=1}^{m-n}\bigg(f_n(1-\varepsilon)^2 K^j\bigg)^{u^{-j}}<A(n,m)<f_n\prod_{j=1}^{m-n}\bigg(f_n(1+\varepsilon)^2 K^j\bigg)^{u^{-j}}
+\end{align*}
+
+Puis pour $m\to +\infty$, $\varepsilon\to 0$, on obtient le résultat.
+\end{proof}
+\begin{remark}
+Si $K<1$ alors $A(n,\infty)\to 0$.
+\end{remark}
+\end{prop}
+\begin{prop}
+Une autre forme de $A(n,m)$ est
+\begin{align*}
+A(n,m)=\sqrt[u_n]{a_{n,1}+\sqrt[u_{n+1}]{a_{n,2}+...+\sqrt[u_m]{a_{n,m-n+1}}}} \textup{ avec } a_{n,i} = C\prod_{j=1}^{i}{f^{Q_{j,i,n}}_{j+n-1}} \textup{ où } Q_{j,i,n} = \prod_{l = 0}^{i-j}u_{n+l}
+\end{align*}
+\begin{proof}
+L'égalité est vérifiée pour $n=m$, on a 
+\begin{align*}
+A(m,m) = f_m\sqrt[u_m]{C}=\sqrt[u_m]{f_{m}^{u_m} C}
+\end{align*}
+
+Supposons qu'elle soit vérifiée pour $n+1$, i.e
+\begin{align*}
+A(n+1,m) = \sqrt[u_{n+1}]{a_{n+1,1}+...+\sqrt[u_m]{a_{n+1, m-n}}}
+\end{align*}
+
+Alors
+\begin{align*}
+A(n,m)=\sqrt[u_n]{C f_{n}^{u_n}+\sqrt[u_{n+1}]{f_{n}^{u_nu_{n+1}}a_{n+1,1}+...+\sqrt[u_m]{f_n^{Q_{1,m-n+1,n}}a_{n+1, m-n}}}}
+\end{align*}
+
+Ainsi, $a_{n,1}=C f_{n}^{u_n}$, de plus pour $2\leq i\leq m-n+1$, $a_{n,i}=a_{n+1,i-1}f_{n}^{Q_{1,i,n}}$, ce qui est attendu.
+\end{proof}
+\begin{remark}
+Cette forme peut être utilisée pour appliquer le théorème de convergence de Herschfeld.
+\end{remark}
+\end{prop}
+\begin{prop}
+Quitte à translater les indices de $(u_i)$, $(f_i)$, notons $r = n-m+1$ et considérons $A(n,m)$ égale à 
+\begin{align*}
+\sqrt[u_n]{a_{n}+\sqrt[u_{n+1}]{a_{n+1}+...+\sqrt[u_{m}]{a_{m}}}}
+\end{align*}
+
+On définit la fonction $g_i=g_{n,i}$
+\begin{align*}
+g_{i}(x)=\left\{
+     \begin{array}{@{}l@{\thinspace}l}
+    x \textup{ si } i = 0\\
+    g^{u_{n+i-1}}_{i-1}(x)-a_{n+i-1} \textup{ sinon }
+     \end{array}
+   \right.   
+\end{align*}
+
+Alors
+\begin{align*}
+\Delta_{n,m} = A(n,m+1)-A(n,m)&\leq \sqrt[u_{m+1}]{a_{m+1}}\bigg(\prod_{i=1}^{r} u_{n-1+i} g^{u_{n-1+i}-1}_{i-1}(A(n,m))\bigg)^{-1}\\
+&=M_{n,m}
+\end{align*}
+\begin{proof}
+Notons qu'on a pour $i\in\llbracket 1;r\rrbracket$, $g_{i}(A(n,m))=A(n,m+1)$, mais aussi, 
+\begin{align*}
+g_{i}(x)-g_{i}(y)=g^{u_{n-1+i}}_{i-1}(x)-g^{u_{n-1+i}}_{i-1}(y)=(g_{i-1}(x)-g_{i-1}(y))\sum_{j=0}^{u_{n-1+i}-1}{g_{i-1}^j(x)g_{i-1}^{u_{n-1+i}-1-j}(y)}
+\end{align*}
+
+On a en déroulant l'identité précédente,
+\begin{align*}
+&(g_{n-1}(A(n,m+1))-g_{n-1}(A(n,m)))\prod_{i=1}^{r}\sum_{j=0}^{u_{n-1+i}-1}g^{j}_{i-1}(A(n,m+1))g^{u_{n+i-1}-1-j}_{i-1}(A(n,m))\\
+=\,&g^{u_m}_{m-1}(A(n,m+1))-g^{u_m}_{m-1}(A(n,m))=\sqrt[u_{m+1}]{a_{m+1}}
+\end{align*}
+
+Or $\Delta_{n,m}=g_{n-1}(A(n,m+1))-g_{n-1}(A(n,m))$ d'où le résultat intermédiaire.
+
+Enfin $g'_{i}(y)=u_ig^{u_{n+i-1}-1}_{i-1}(y)g'_{i-1}(y)$ puis $g_{i}(A(n,m+1))\geq g_{i}(A(n,m))$ d'où
+\begin{align*}
+\sum_{j=0}^{u_{n+i-1}-1}g^{j}_{i-1}(A(n,m+1))g^{u_{n+i-1}-1-j}_{i-1}(A(n,m))\geq u_{n+i-1} g^{u_{n-1+i}-1}_{i-1}(A(n,m))
+\end{align*}
+
+Aussi, on en déduit que 
+\begin{align*}
+A(n,m+1)\leq A(n,n)+ \sum_{k = n}^m M_{n,k}
+\end{align*}
+
+Ce qui conclue cette démonstration.
+\end{proof}
+\end{prop}
+
+\begin{prop}
+Si $f_n = an+b$ avec $a$, $b$ quelconques et $(u_n)$ est de terme constant égal à $r$, alors 
+\begin{align*}
+A(1,\infty) \approx C^{1/r}(a+b)+1/r((a+b)^{r}(2a+b) C^{1/r})((a+b) C^{1/r})^{1-r}
+\end{align*}
+
+L'approximation est d'autant plus bonne (il y a égalité en limite pour $r$ et $a$) que $r$ est grand et $a$ petit. Il est possible d'obtenir une approximation pour $A(l,\infty)$ en remplaçant $b$ par $b+al$ et $n$ par $n-l$.
+\begin{proof}
+Le terme de droite correspond à $A(1,1)+M_{1,1}$. IL RESTE A MAJORER $|A(1,\infty)-A(1,1)-M_{1,1}|$.
+\end{proof}
+\end{prop}
+\end{document}
